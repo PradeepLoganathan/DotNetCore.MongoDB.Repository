@@ -31,5 +31,6 @@ namespace DotNETCore.Repository.Mongo
         /// </summary>
         [BsonIgnore]
         ObjectId ObjectId { get; }
+
     }
 }
