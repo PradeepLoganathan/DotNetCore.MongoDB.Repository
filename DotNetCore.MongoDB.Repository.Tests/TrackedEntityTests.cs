@@ -19,7 +19,6 @@ namespace DotNetCore.MongoDB.Repository.Tests
             Assert.Equal(2, trackable.IntProperty.GetValue(DateTime.Now.AddDays(-10).Date));
         }
 
-
         [Fact]
         public void TrackedEntityCanGetIntermediateVersionWhenNotExact()
         {
@@ -31,7 +30,6 @@ namespace DotNetCore.MongoDB.Repository.Tests
             Assert.Equal(null, trackable.StringProperty.GetValue(DateTime.Now.AddDays(-3).Date));
             Assert.Equal(5, trackable.IntProperty.GetValue(DateTime.Now.AddDays(-3).Date));
         }
-
 
         [Fact]
         public void TrackedEntityCanGetLatestVersion()

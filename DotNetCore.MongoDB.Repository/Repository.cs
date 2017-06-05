@@ -77,7 +77,6 @@ namespace DotNETCore.Repository.Mongo
             Configuration = configuration;
         }
 
-
         /// <summary>
         ///     mongo collection
         /// </summary>
@@ -87,6 +86,7 @@ namespace DotNETCore.Repository.Mongo
         {
             if (Configuration != null)
                 return Database<K>.GetCollection(Configuration);
+
             return Database<K>.GetCollectionFromConnectionString(ConnectionString);
         }
 
@@ -137,7 +137,7 @@ namespace DotNETCore.Repository.Mongo
         /// <param name="id">id</param>
         public virtual void Delete(string id)
         {
-            Retry(() => { return Collection.DeleteOne(i => i.Id == id); });
+            Retry(() => Collection.DeleteOne(i => i.Id == id));
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace DotNETCore.Repository.Mongo
         /// <param name="filter">expression filter</param>
         public void Delete(Expression<Func<T, bool>> filter)
         {
-            Retry(() => { return Collection.DeleteMany(filter); });
+            Retry(() => Collection.DeleteMany(filter));
         }
 
         #endregion Delete
@@ -219,7 +219,7 @@ namespace DotNETCore.Repository.Mongo
         /// <returns>collection of entity</returns>
         public virtual IEnumerable<T> FindAll()
         {
-            return Retry(() => { return Query().ToList(); });
+            return Retry(() => Query().ToList());
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace DotNETCore.Repository.Mongo
         /// <returns>entity of <typeparamref name="T" /></returns>
         public virtual T Get(string id)
         {
-            return Retry(() => { return Find(i => i.Id == id).FirstOrDefault(); });
+            return Retry(() => Find(i => i.Id == id).FirstOrDefault());
         }
 
         #endregion Get
@@ -410,7 +410,7 @@ namespace DotNETCore.Repository.Mongo
         /// <param name="entity">entity</param>
         public virtual void Replace(T entity)
         {
-            Retry(() => { return Collection.ReplaceOne(i => i.Id == entity.Id, entity); });
+            Retry(() => Collection.ReplaceOne(i => i.Id == entity.Id, entity));
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace DotNETCore.Repository.Mongo
         ///     update an entity with updated fields
         /// </summary>
         /// <param name="id">id</param>
-        /// <param name="update">updated field(s)</param>
+        /// <param name="updates">updated field(s)</param>
         /// <returns>true if successful, otherwise false</returns>
         public virtual bool Update(string id, params UpdateDefinition<T>[] updates)
         {
@@ -455,7 +455,7 @@ namespace DotNETCore.Repository.Mongo
         ///     update an entity with updated fields
         /// </summary>
         /// <param name="entity">entity</param>
-        /// <param name="update">updated field(s)</param>
+        /// <param name="updates">updated field(s)</param>
         /// <returns>true if successful, otherwise false</returns>
         public virtual bool Update(T entity, params UpdateDefinition<T>[] updates)
         {
@@ -479,7 +479,7 @@ namespace DotNETCore.Repository.Mongo
         ///     update found entities by filter with updated fields
         /// </summary>
         /// <param name="filter">collection filter</param>
-        /// <param name="update">updated field(s)</param>
+        /// <param name="updates">updated field(s)</param>
         /// <returns>true if successful, otherwise false</returns>
         public bool Update(FilterDefinition<T> filter, params UpdateDefinition<T>[] updates)
         {
@@ -494,7 +494,7 @@ namespace DotNETCore.Repository.Mongo
         ///     update found entities by filter with updated fields
         /// </summary>
         /// <param name="filter">collection filter</param>
-        /// <param name="update">updated field(s)</param>
+        /// <param name="updates">updated field(s)</param>
         /// <returns>true if successful, otherwise false</returns>
         public bool Update(Expression<Func<T, bool>> filter, params UpdateDefinition<T>[] updates)
         {

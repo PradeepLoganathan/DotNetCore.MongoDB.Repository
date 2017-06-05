@@ -95,7 +95,7 @@ namespace DotNETCore.Repository.Mongo
         /// <returns>Returns the collection name for T.</returns>
         private static string GetCollectionName()
         {
-            var collectionName = typeof(T).GetTypeInfo().BaseType.Equals(typeof(object))
+            var collectionName = typeof(T).GetTypeInfo().BaseType == typeof(object)
                 ? GetCollectionNameFromInterface()
                 : GetCollectionNameFromType();
 
@@ -123,14 +123,11 @@ namespace DotNETCore.Repository.Mongo
         private static string GetCollectionNameFromType()
         {
             var entitytype = typeof(T);
-            string collectionname;
 
             // Check to see if the object (inherited from Entity) has a CollectionName attribute
-            var att = typeof(T).GetTypeInfo().Assembly.GetCustomAttribute<CollectionNameAttribute>();
-            if (att != null)
-                collectionname = att.Name;
-            else
-                collectionname = entitytype.Name;
+            var collectionNameAttribute = typeof(T).GetTypeInfo().Assembly.GetCustomAttribute<CollectionNameAttribute>();
+
+            var collectionname = collectionNameAttribute != null ? collectionNameAttribute.Name : entitytype.Name;
 
             return collectionname;
         }
@@ -146,7 +143,7 @@ namespace DotNETCore.Repository.Mongo
         /// <returns>Returns the connection name for T.</returns>
         private static string GetConnectionName()
         {
-            var collectionName = typeof(T).GetTypeInfo().BaseType.Equals(typeof(object))
+            var collectionName = typeof(T).GetTypeInfo().BaseType == typeof(object)
                 ? GetConnectionNameFromInterface()
                 : GetConnectionNameFromType();
 
@@ -192,6 +189,7 @@ namespace DotNETCore.Repository.Mongo
                 if (typeof(Entity).GetTypeInfo().IsAssignableFrom(entitytype))
                     while (!entitytype.GetTypeInfo().BaseType.Equals(typeof(Entity)))
                         entitytype = entitytype.GetTypeInfo().BaseType;
+
                 collectionname = entitytype.Name;
             }
 

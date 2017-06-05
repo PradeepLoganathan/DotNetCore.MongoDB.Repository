@@ -55,7 +55,7 @@ namespace DotNetCore.MongoDB.Repository.Tracking
             var allTargetProperties = result
                 .GetType()
                 .GetProperties()
-                .Where(x => x.SetMethod != null && x.SetMethod.IsPublic)
+                .Where(x => x.SetMethod?.IsPublic == true)
                 .ToList();
 
             foreach (var prop in versionedSourceProperties)
@@ -93,8 +93,7 @@ namespace DotNetCore.MongoDB.Repository.Tracking
 
             var targetProperties = GetType()
                 .GetProperties().Where(
-                    x => x.SetMethod != null &&
-                         x.SetMethod.IsPublic && x.Name != "Revisions").ToArray();
+                    x => x.SetMethod?.IsPublic == true && x.Name != "Revisions").ToArray();
 
             var sourceProperties = entity.GetType().GetProperties();
 

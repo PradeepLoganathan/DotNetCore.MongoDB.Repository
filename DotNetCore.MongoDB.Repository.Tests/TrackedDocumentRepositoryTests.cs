@@ -28,12 +28,10 @@ namespace DotNetCore.MongoDB.Repository.Tests
         {
             var all = Repository.FindAll().ToList();
 
-
             Assert.True(TestData.InitialEntity.CollectionProperty.SequenceEqual(all.Last().CollectionProperty));
             Assert.Equal(TestData.InitialEntity.StringProperty, all.Last().StringProperty);
             Assert.Equal(TestData.InitialEntity.IntProperty, all.Last().IntProperty);
         }
-
 
         [Fact]
         public void TrackedDocumentUpdates()
