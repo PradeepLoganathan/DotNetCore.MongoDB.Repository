@@ -2,12 +2,12 @@ using System;
 
 namespace DotNetCore.MongoDB.Repository.Tracking
 {
-
     public interface IPropertyRevision
     {
         object GetValue();
         object Create(object value, object version);
     }
+
     public interface IPropertyRevision<TValue, TVersion> : IPropertyRevision
     {
         TVersion Version { get; set; }
@@ -17,16 +17,11 @@ namespace DotNetCore.MongoDB.Repository.Tracking
         IPropertyRevision<TValue, TVersion> Create(TValue value, TVersion version);
     }
 
-    public class PropertyRevision<TValue, TVersion> :IPropertyRevision<TValue,TVersion>
-        where TVersion:IComparable
+    public class PropertyRevision<TValue, TVersion> : IPropertyRevision<TValue, TVersion>
+        where TVersion : IComparable
     {
-        public TVersion Version { get; set; }
-        public TValue Value { get; set; }
-
-
         public PropertyRevision()
         {
-           
         }
 
         public PropertyRevision(TValue value, TVersion version)
@@ -35,6 +30,9 @@ namespace DotNetCore.MongoDB.Repository.Tracking
             Version = version;
         }
 
+        public TVersion Version { get; set; }
+        public TValue Value { get; set; }
+
         public TValue GetValue()
         {
             return Value;
@@ -42,7 +40,7 @@ namespace DotNetCore.MongoDB.Repository.Tracking
 
         public IPropertyRevision<TValue, TVersion> Create(TValue value, TVersion version)
         {
-            return new PropertyRevision<TValue, TVersion>(value,version);
+            return new PropertyRevision<TValue, TVersion>(value, version);
         }
 
         object IPropertyRevision.GetValue()
@@ -52,7 +50,7 @@ namespace DotNetCore.MongoDB.Repository.Tracking
 
         object IPropertyRevision.Create(object value, object version)
         {
-            return this.Create((TValue) value, (TVersion) version);
+            return Create((TValue) value, (TVersion) version);
         }
     }
 }

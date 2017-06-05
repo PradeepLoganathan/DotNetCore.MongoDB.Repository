@@ -1,12 +1,12 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
-using System;
 
 namespace DotNETCore.Repository.Mongo
 {
     /// <summary>
-    /// mongo entity
+    ///     mongo entity
     /// </summary>
     [BsonIgnoreExtraElements(Inherited = true)]
     public class Entity : IEntity
@@ -17,33 +17,27 @@ namespace DotNETCore.Repository.Mongo
         }
 
         /// <summary>
-        /// create date
+        ///     create date
         /// </summary>
-        public DateTime CreatedOn
-        {
-            get
-            {
-                return ObjectId.CreationTime;
-            }
-        }
+        public DateTime CreatedOn => ObjectId.CreationTime;
 
         /// <summary>
-        /// id in string format
+        ///     id in string format
         /// </summary>
-        [JsonProperty(Order =1)]
+        [JsonProperty(Order = 1)]
         [BsonElement(Order = 0)]
         [BsonRepresentation(BsonType.String)]
         public string Id { get; set; }
 
         /// <summary>
-        /// modify date
+        ///     modify date
         /// </summary>
         [BsonElement("_m", Order = 1)]
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime ModifiedOn { get; set; }
 
         /// <summary>
-        /// id in objectId format
+        ///     id in objectId format
         /// </summary>
         [JsonIgnore]
         public ObjectId ObjectId
@@ -56,7 +50,5 @@ namespace DotNETCore.Repository.Mongo
                 return ObjectId.Parse(Id);
             }
         }
-
-
     }
 }

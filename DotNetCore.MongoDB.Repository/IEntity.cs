@@ -1,36 +1,35 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 
 namespace DotNETCore.Repository.Mongo
 {
     /// <summary>
-    /// mongo entity interface
+    ///     mongo entity interface
     /// </summary>
     public interface IEntity
     {
         /// <summary>
-        /// create date
+        ///     create date
         /// </summary>
         [BsonIgnore]
         DateTime CreatedOn { get; }
 
         /// <summary>
-        /// id in string format
+        ///     id in string format
         /// </summary>
         [BsonId]
         string Id { get; set; }
 
         /// <summary>
-        /// modify date
+        ///     modify date
         /// </summary>
         DateTime ModifiedOn { get; }
 
         /// <summary>
-        /// id in objectId format
+        ///     id in objectId format
         /// </summary>
         [BsonIgnore]
         ObjectId ObjectId { get; }
-
     }
 }
