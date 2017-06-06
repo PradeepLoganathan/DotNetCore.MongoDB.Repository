@@ -10,15 +10,8 @@ namespace DotNetCore.MongoDB.Repository.Tracking
     }
 
     public interface ITrackableEntity<TVersion> : IEntity
-       where TVersion : IComparable
+        where TVersion : IComparable
     {
         RevisionRecord<TVersion> Revision { get; set; }
     }
-
-
-
-
-
-
-
 }

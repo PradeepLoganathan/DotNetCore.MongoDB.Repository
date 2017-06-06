@@ -10,12 +10,12 @@ namespace DotNetCore.MongoDB.Repository.Tracking
 
     public class RevisionRecord<TVersion> : IRevisionRecord<TVersion>
     {
-        public TVersion Version { get; set; }
-        public DateTime Date { get; set; }
-
         public RevisionRecord()
         {
             Date = DateTime.UtcNow;
         }
+
+        public TVersion Version { get; set; }
+        public DateTime Date { get; set; }
     }
 }

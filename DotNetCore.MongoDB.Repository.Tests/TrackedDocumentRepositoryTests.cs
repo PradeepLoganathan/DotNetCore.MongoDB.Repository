@@ -1,52 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using MongoDB.Driver;
 using Xunit;
 
 namespace DotNetCore.MongoDB.Repository.Tests
 {
     public class TrackedDocumentRepositoryTests
     {
-        public TrackedDocumentRepository<
-            TestEntityTracked, 
-            TestEntity, 
-            DateTime> Repository { get; set; }
-    
         public TrackedDocumentRepositoryTests()
         {
-
-            
-
             Repository = new TrackedDocumentRepository<
-                                TestEntityTracked, 
-                                TestEntity, 
-                                DateTime>("mongodb://localhost:27017/testDb");
+                TestEntityTracked,
+                TestEntity,
+                DateTime>("mongodb://localhost:27017/testDb");
 
             Repository.Collection.Database.DropCollection(Repository.Collection.CollectionNamespace.CollectionName);
-            
+
             Repository.Insert(TestData.InitialEntity);
         }
+
+        public TrackedDocumentRepository<
+            TestEntityTracked,
+            TestEntity,
+            DateTime> Repository { get; set; }
 
         [Fact]
         public void TrackedDocumentInsertedProperly()
         {
+            var all = Repository.FindAll().ToList();
 
-                var all = Repository.FindAll().ToList();
-
-           
             Assert.True(TestData.InitialEntity.CollectionProperty.SequenceEqual(all.Last().CollectionProperty));
             Assert.Equal(TestData.InitialEntity.StringProperty, all.Last().StringProperty);
             Assert.Equal(TestData.InitialEntity.IntProperty, all.Last().IntProperty);
-
         }
-
 
         [Fact]
         public void TrackedDocumentUpdates()
         {
-
             var all = Repository.FindAll().ToList();
 
             var doc = all.Last();
@@ -56,7 +45,7 @@ namespace DotNetCore.MongoDB.Repository.Tests
             Repository.Update(TestData.FirstUpdate);
             var updatedDoc = Repository.Get(doc.Id);
 
-            Assert.Equal(null,updatedDoc.CollectionProperty);
+            Assert.Equal(null, updatedDoc.CollectionProperty);
             Assert.Equal(TestData.FirstUpdate.StringProperty, updatedDoc.StringProperty);
             Assert.Equal(TestData.FirstUpdate.IntProperty, updatedDoc.IntProperty);
 
@@ -67,7 +56,6 @@ namespace DotNetCore.MongoDB.Repository.Tests
             Assert.True(TestData.SecondUpdate.CollectionProperty.SequenceEqual(updatedDoc.CollectionProperty));
             Assert.Equal(TestData.SecondUpdate.StringProperty, updatedDoc.StringProperty);
             Assert.Equal(TestData.SecondUpdate.IntProperty, updatedDoc.IntProperty);
-
         }
     }
 }
