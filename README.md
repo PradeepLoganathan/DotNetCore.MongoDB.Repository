@@ -2,6 +2,7 @@
 
 Generic repository implementation for MongoDB on .NET Core Applications. The original code is from: https://github.com/esendir/MongoRepository
 
+In addition to the original package, this package introduces TrackedEntity and TrackedDocumentRepository types. TrackedEntity is a generic type that has parameters (TrackedProperty) which holds their own history. To have a better understanding please see the tests.
 
 ## Installation
 
