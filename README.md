@@ -48,20 +48,6 @@ There are multiple base constructors, read summaries of others
 	}
 ```
 
-*If you want to create a repository for already defined non-entity model*
-```csharp
-	public class UserRepository : Repository<Entity<User>>
-	{
-		public UserRepository(string connectionString) : base(connectionString) {}
-
-		//custom method
-		public User FindbyUsername(string username)
-		{
-			return First(i => i.Content.Username == username);
-		}
-	}
-```
-
 ### Usage
 
 Each method has multiple overloads, read method summary for additional parameters
